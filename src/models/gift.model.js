@@ -1,6 +1,6 @@
 "use strict";
 export default (sequelize, Sequelize) =>
-  sequelize.define("teams", {
+  sequelize.define("giftaction", {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,

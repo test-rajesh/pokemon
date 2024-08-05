@@ -1,21 +1,22 @@
 "use strict";
-const { Model } = require("sequelize");
-
-module.exports = (sequelize, DataTypes) => {
-  class Country extends Model {
-    static associate(models) {
-      // Define associations here
-    }
-  }
-  Country.init(
-    {
-      name: DataTypes.STRING,
+export default (sequelize, Sequelize) =>
+  sequelize.define("countries", {
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
     },
-    {
-      sequelize,
-      modelName: "Country",
-      tableName: "countries", // Explicitly specify the table name
-    }
-  );
-  return Country;
-};
+    name: {
+      type: Sequelize.STRING(255),
+      allowNull: false,
+    },
+    abbreviation: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
+    },
+    deleted: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
+  });

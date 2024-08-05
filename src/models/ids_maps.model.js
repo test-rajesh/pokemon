@@ -1,22 +1,33 @@
 "use strict";
-const { Model } = require("sequelize");
-
-module.exports = (sequelize, DataTypes) => {
-  class IdsMap2 extends Model {
-    static associate(models) {
-      // Define associations here
-    }
-  }
-  IdsMap2.init(
-    {
-      key: DataTypes.STRING,
-      value: DataTypes.STRING,
+export default (sequelize, Sequelize) =>
+  sequelize.define("ids_map2", {
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
     },
-    {
-      sequelize,
-      modelName: "IdsMap2",
-      tableName: "ids_map2",
-    }
-  );
-  return IdsMap2;
-};
+    gift_id: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: 1,
+    },
+    country_id: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: 7,
+    },
+    team_id: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: 1,
+    },
+    player_id: {
+      type: Sequelize.STRING(255),
+      allowNull: false,
+    },
+    deleted: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
+  });
