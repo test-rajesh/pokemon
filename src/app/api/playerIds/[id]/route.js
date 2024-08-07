@@ -1,9 +1,15 @@
-import { applyCommonMiddleware } from "@/middlewares/common2";
-import { createEdgeRouter } from "next-connect";
+import { applyEdgeMiddleware } from "@/middlewares";
 import { NextResponse } from "next/server";
+import { createEdgeRouter } from "next-connect";
 
-const router = applyCommonMiddleware();
+const router = createEdgeRouter();
+applyEdgeMiddleware(router);
 router.get((req, ctx) => {
+  const url = new URL(req.url);
+  const queryParams = new URLSearchParams(url.search);
+  const queryParamsObject = Object.fromEntries(queryParams.entries());
+  console.log(queryParamsObject);
+
   const { id } = ctx.params;
   const users = [{ name: "rajesh", id: 4324 }];
   const user = users.find((user) => user.id == id);

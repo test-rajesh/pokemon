@@ -14,9 +14,9 @@ export default (sequelize, Sequelize) =>
       type: Sequelize.STRING(255),
       allowNull: true,
     },
-    deleted: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
-    },
+    // deleted: {
+    //   type: Sequelize.INTEGER,
+    //   allowNull: false,
+    //   defaultValue: 0,
+    // },
   });
