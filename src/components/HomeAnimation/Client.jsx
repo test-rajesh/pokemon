@@ -35,7 +35,7 @@ export default function Client() {
   }, [isFadingOut]);
 
   return (
-    <div className="hero-wrapper absolute">
+    <div className="hero-wrapper">
       {isVisible && (
         <div className={`${isFadingOut ? "fade-out" : "fade-in"}`}>
           <Server />

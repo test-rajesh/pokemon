@@ -7,15 +7,11 @@ module.exports = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
       minHeight: {
-        "screen-100": "calc(100vh - 140px)", // Custom min-height utility
+        "screen-100": "calc(100vh - 80px)",
       },
     },
   },
+  darkMode: "class",
   plugins: [require("daisyui")],
 };

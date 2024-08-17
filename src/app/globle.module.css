@@ -1,0 +1,7 @@
+.btnPrimary {
+    @apply bg-blue-500 text-white font-bold py-2 px-4 rounded;
+}
+
+.btnSecondary {
+    @apply bg-gray-500 text-white font-bold py-2 px-4 rounded;
+}

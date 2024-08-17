@@ -6,7 +6,7 @@ const Client = dynamic(() => import("./Client"));
 export default function HomeAnimation() {
   return (
     <Container>
-      <div className="relative  min-h-screen-100">
+      <div className="min-h-screen-100">
         <Client />
       </div>
     </Container>

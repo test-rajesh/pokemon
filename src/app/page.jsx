@@ -1,5 +1,9 @@
-import HomeAnimation from "@/components/HomeAnimation/HomeAnimation";
+import { Container, Home } from "@/components";
 
-export default function Home() {
-  return <HomeAnimation />;
+export default function Page() {
+  return (
+    <Container>
+      <Home />
+    </Container>
+  );
 }

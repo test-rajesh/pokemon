@@ -1,10 +1,14 @@
 import { NextResponse } from "next/server";
 import { headers } from "./middlewares";
 
-export function middleware(request) {
-  let response = NextResponse.next();
-  response = headers(response);
-  return response;
+export async function middleware(request) {
+  try {
+    let response = NextResponse.next();
+    response = headers(response);
+    return response;
+  } catch (err) {
+    console.log(err, "error in middleware.js");
+  }
 }
 
 export const config = {
