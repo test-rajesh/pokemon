@@ -1,6 +1,4 @@
-"use client";
-import { useEffect } from "react";
-import Cookies from "js-cookie";
+
 
 const deviceIP = async () => {
   let ipResponse = await fetch("https://api.ipify.org?format=json");
@@ -11,27 +9,18 @@ const deviceIP = async () => {
   return ip;
 };
 
-const fetchLocation = async () => {
+export const fetchLocation = async (Cookies) => {
   try {
-    const country = Cookies.get("country");
+    let country = Cookies.get("country");
     if (!country) {
       const ip = await deviceIP();
       const response = await fetch(`http://ip-api.com/json/${ip}`);
       const data = await response.json();
-      const { country } = data;
+      country = data?.country;
       Cookies.set("country", country);
     }
+    return country;
   } catch (error) {
     console.log("Error fetching location:", error);
   }
 };
-
-const Locationcom = ({ children }) => {
-  useEffect(() => {
-    fetchLocation();
-  }, []);
-
-  return <>{children}</>;
-};
-
-export default Locationcom;

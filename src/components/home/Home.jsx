@@ -1,14 +1,14 @@
-import { fetchData } from "@/utils/api";
+import { config } from "@/config";
+import { fetchData } from "@/utils/server";
+import { LoactionInfo } from "./LoactionInfo";
 
 export const Home = async () => {
-  const locationData = await fetchData("http://localhost:3000/api/playerIds");
-
+  const locationData = await fetchData(`${config.BASE_URL}/api/playerIds`);
   if (!locationData) return <div>Loading...</div>;
 
   return (
-    <div>
-      <h1>Location Data</h1>
-      <pre>{JSON.stringify(locationData, null, 2)}</pre>
+    <div className=" border w-full flex justify-center align-middle">
+      <LoactionInfo />
     </div>
   );
 };

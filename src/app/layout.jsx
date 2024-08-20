@@ -1,7 +1,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Footer, Header } from "@/components";
-import Locationcom from "@/app/clients/FetchLocation";
+import { GlobalStateProvider } from "@/context";
+import { getInitialTheme } from "@/utils/server";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,18 +12,17 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
+  const initialTheme = getInitialTheme();
   return (
-    <html lang="en" className="light">
+    <html lang="en" className={initialTheme}>
       <head>
         <script
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
                 const theme = document.cookie.split('; ').find(row => row.startsWith('theme='))?.split('=')[1];
-                if (theme) {
-                  document.documentElement.classList.add(theme);
-                } else {
-                  document.documentElement.classList.add('light');
+                if (theme && theme !== document.documentElement.className) {
+                  document.documentElement.className = theme;
                 }
               })();
             `,
@@ -34,7 +34,7 @@ export default async function RootLayout({ children }) {
           <Header />
         </header>
         <main className="flex-1 min-h-screen-100 p-1">
-          <Locationcom>{children}</Locationcom>
+          <GlobalStateProvider>{children}</GlobalStateProvider>
         </main>
         <footer className="">
           <Footer />
