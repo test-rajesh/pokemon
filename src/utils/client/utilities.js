@@ -1,5 +1,3 @@
-
-
 const deviceIP = async () => {
   let ipResponse = await fetch("https://api.ipify.org?format=json");
   if (!(await ipResponse.json().ip)) {
@@ -16,6 +14,8 @@ export const fetchLocation = async (Cookies) => {
       const ip = await deviceIP();
       const response = await fetch(`http://ip-api.com/json/${ip}`);
       const data = await response.json();
+      console.log(data, "//");
+
       country = data?.country;
       Cookies.set("country", country);
     }

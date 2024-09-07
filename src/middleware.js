@@ -1,16 +1,18 @@
 import { NextResponse } from "next/server";
-import { headers } from "./middlewares";
 
 export async function middleware(request) {
-  try {
-    let response = NextResponse.next();
-    response = headers(response);
-    return response;
-  } catch (err) {
-    console.log(err, "error in middleware.js");
+  const response = NextResponse.next();
+  const headersList = request.headers;
+  const userLocationCountry = headersList.get("cloudfront-viewer-country-name");
+
+  if (userLocationCountry) {
+    return NextResponse.redirect(
+      new URL(`/country/${userLocationCountry}`, request.url)
+    );
   }
+  return response;
 }
 
 export const config = {
-  matcher: "/:path*",
+  matcher: ["/"],
 };
