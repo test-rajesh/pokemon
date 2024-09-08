@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { CountryModel, IdsMapModel } from "@/models";
 import { getPlayerDataValidation } from "@/validations";
-import { queryParamsToObject } from "@/utils/server";
+import { getFilters, queryParamsToObject } from "@/utils/server";
 
 // Main handler for GET requests
 export async function GET(request) {
@@ -9,16 +9,24 @@ export async function GET(request) {
     // Parse the URL and extract query parameters
     const { searchParams } = new URL(request.url);
     const queryParams = queryParamsToObject(searchParams);
-    const data = await getPlayerDataValidation.validateAsync(queryParams);
-    console.log(data);
-
-    // const countries = await IdsMapModel.findAll({ limit: 20 });
+    const validatedQueryParams = await getPlayerDataValidation.validateAsync(
+      queryParams
+    );
+    const filters = getFilters({ ...validatedQueryParams });
+    const countries = await IdsMapModel.findAll({
+      where: filters.condition,
+      include: filters.include,
+      limit: 20,
+    });
     // if (!countries) {
     //   return NextResponse.json({ error: "User not found" }, { status: 404 });
     // }
 
     // // Return the response
-    return NextResponse.json({ message: "reaching!!", data });
+    return NextResponse.json({
+      message: "reaching!!",
+      countries,
+    });
   } catch (error) {
     console.error("Error in GET handler:", error);
     return NextResponse.json(

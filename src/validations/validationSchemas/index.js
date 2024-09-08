@@ -1,3 +1,3 @@
 import trainerCodeSchema from "./trainerCode.schema";
-
-export default { trainerCodeSchema };
+import name from "./name.schema";
+export default { trainerCodeSchema, name };

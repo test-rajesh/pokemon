@@ -1,28 +1,57 @@
 import { CountryModel, GiftModel, TeamModel } from "@/models";
+import { Op } from "sequelize";
 
-export const getFilters = ({ country, team, gift, playerID }) => {
-  const condition = {};
-  const include = [];
+export const getFilters = ({ country, trainerCodeId, giftAction, team }) => {
+  const condition = {}; // Main condition for the primary model (IdsMapModel)
+  const include = []; // Array to store associated models for inclusion
 
-  if (playerID) {
-    condition.playerid = playerID;
+  const modelFilters = [
+    {
+      model: CountryModel,
+      filterValue: country,
+      filterField: "name",
+      attributes: ["name", "abbreviation"],
+      alias: "country",
+    },
+    {
+      model: TeamModel,
+      filterValue: team,
+      filterField: "name",
+      attributes: ["name", "abbreviation"],
+      alias: "team",
+    },
+    {
+      model: GiftModel,
+      filterValue: giftAction,
+      filterField: "abbreviation",
+      attributes: ["name", "abbreviation"],
+      alias: "gift",
+    },
+  ];
+
+  // Add condition for playerID, if present
+  if (trainerCodeId) {
+    condition.player_id = trainerCodeId;
   }
 
-  // Utility function to generate include objects
-  const addInclude = (model, where, attributes) => {
-    include.push({ model, where, attributes });
-  };
-
-  // Add conditions forall types of filters.
-  if (country) {
-    addInclude(CountryModel, { name: country }, ["name", "abbreviations"]);
-  }
-  if (team) {
-    addInclude(TeamModel, { name: team }, ["name", "abbreviations"]);
-  }
-  if (gift) {
-    addInclude(GiftModel, { name: gift }, ["name", "abbreviations"]);
-  }
+  // Loop through each filter in the map and add to the include array
+  modelFilters.forEach(
+    ({ model, filterValue, filterField, attributes, alias }) => {
+      include.push({
+        model,
+        as: alias,
+        where: filterValue
+          ? {
+              [Op.or]: [
+                { [filterField]: filterValue }, // Match provided filter value
+                { [filterField]: { [Op.is]: null } }, // Allow null values
+              ],
+            }
+          : undefined,
+        attributes,
+      });
+    }
+  );
 
   return { condition, include };
 };

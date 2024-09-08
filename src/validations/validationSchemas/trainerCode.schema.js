@@ -34,7 +34,6 @@ const trainerCodeSchema = Joi.string()
   .length(12)
   .pattern(/^[0-9]+$/, "numbers")
   .custom(noConsecutiveRepeats)
-  .required()
   .messages({
     "string.length": "Trainer ID must be exactly 12 digits long.",
     "string.pattern.base": "Trainer ID can only contain numeric characters.",
